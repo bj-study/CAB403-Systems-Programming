@@ -1,0 +1,11 @@
+[book]
+authors = ["Brook Jeynes"]
+language = "en"
+multilingual = false
+src = "src"
+title = "CAB403-Systems-Programming"
+
+[output.html]
+mathjax-support = true
+
+[output.pdf]
