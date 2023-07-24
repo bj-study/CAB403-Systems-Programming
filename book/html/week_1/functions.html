@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Week 1 - CAB403-Systems-Programming</title>
+        <title>Functions - CAB403-Systems-Programming</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html" class="active"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html" class="active"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,19 +144,105 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="week-1"><a class="header" href="#week-1">Week 1</a></h1>
+                        <h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
+<p>A function construct in C is used to write code that solves a (small) problem.
+A procedural C program is made up of one or more functions, one of them being
+<code>main()</code>. A C program will always begin execution with <code>main()</code>.</p>
+<p>Function parameters can be passed into a function in one of two ways; pass by value
+and pass by reference. When a parameter is passed in via value, the data for the
+parameters are copied. This means any changes to said variables within the function
+will not affect the original values passed in. Pass by reference on the other hand
+passes in the memory address of each variable into the function. This means that
+changes to the variables within the function will affect the original variables.</p>
+<p><strong>Example 1: Function control</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void prn_message(const int k);
+
+int main(void) {
+    int n;
+
+    printf(&quot;There is a message for you.\n&quot;);
+    printf(&quot;How many times do you want to see it?\n&quot;);
+
+    scanf(&quot;%d&quot;, &amp;n);
+
+    prn_message(n);
+
+    return 0;
+}
+
+void prn_message(const int k) {
+    printf(&quot;Here is the message:\n&quot;);
+
+    for (size_t i = 0; i &lt; k; i++) {
+        printf(&quot;Have a nice day!\n&quot;);
+    }
+}
+</code></pre>
+<p><strong>Example 2: Pass by values</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swapx(int a, int b);
+
+int main(void) {
+    int a = 10;
+    int b = 20;
+
+    // Pass by value
+    swapx(a, b);
+
+    printf(&quot;within caller - a: %d, b: %b\n&quot;, a, b); // &quot;within caller - a: 10, b: 20&quot;
+
+    return 0;
+}
+
+void swapx(int a, int b) {
+    int temp;
+
+    temp = a;
+    a = b;
+    b = temp;
+
+    printf(&quot;within function - a: %d, b: %b\n&quot;, a, b); // &quot;within function - a: 20, b: 10&quot;
+}
+</code></pre>
+<p><strong>Example 3: Pass by value</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swapx(int *a, int *b);
+
+int main(void) {
+    int a = 10;
+    int b = 20;
+
+    // Pass by reference
+    swapx(&amp;a, &amp;b);
+
+    printf(&quot;within caller - a: %d, b: %b\n&quot;, a, b); // &quot;within caller - a: 20, b: 10&quot;
+
+    return 0;
+}
+
+void swapx(int *a, int *b) {
+    int temp;
+
+    temp = *a;
+    *a = *b;
+    *b = temp;
+
+    printf(&quot;within function - a: %d, b: %b\n&quot;, *a, *b); // &quot;within function - a: 20, b: 10&quot;
+}
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../week_1/pointers.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../week_1/operating-systems.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -164,13 +250,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../week_1/pointers.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../week_1/operating-systems.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
