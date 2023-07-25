@@ -9,3 +9,4 @@ title = "CAB403-Systems-Programming"
 mathjax-support = true
 
 [output.pdf]
+optional = true
