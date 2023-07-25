@@ -22,4 +22,3 @@ int *b = &a;
 
 printf("Values: %d == %d\nAddresses: %p == %p\n", *b, a, b, &a);
 ```
-
