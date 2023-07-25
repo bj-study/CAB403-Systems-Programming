@@ -3,11 +3,12 @@
 Timothy Chappell | Notes for CAB403 at the Queensland University of Technology
 
 ## How to use this guide
-There are two ways to read the book:
-1. Reading the PDF output:
+There are three ways to read the book:
+1. View the study guide [online](https://bj-study.github.io/CAB403-Systems-Programming/)
+2. Reading the PDF output:
     1. Navigate to [./book/pdf/output.pdf](./book/pdf/output.pdf)
     2. Open the PDF
-2. Running the book via HTML (this provides the better experience)
+3. Running the book locally
     1. Install [NPM](https://docs.npmjs.com/cli/v7/configuring-npm/install)
     2. Install [serve](https://www.npmjs.com/package/serve)
     3. Navigate to the `book` directory and serve the files
