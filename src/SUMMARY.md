@@ -12,3 +12,5 @@
     - [Strings](./week_2/strings.md)
     - [Structures](./week_2/structures.md)
     - [Dynamic Memory Management](./week_2/memory_management.md)
+- [Week 3](.week_3/preface.md)
+    - [Processes](./week_3/processes.md)
