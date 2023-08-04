@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Operating System Structures - CAB403-Systems-Programming</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html" class="active"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CAB403-Systems-Programming</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="operating-system-structures"><a class="header" href="#operating-system-structures">Operating System Structures</a></h1>
+<h2 id="operating-system-services"><a class="header" href="#operating-system-services">Operating System Services</a></h2>
+<p>Operating systems provide an environment for execution of programs and services
+to programs and users.</p>
+<p>There are many operating system services that provide functions that are
+helpful to the user such as:</p>
+<ul>
+<li><strong>User interface</strong>: Almost all operating systems have a user interface. This can
+be in the form of a graphical user interface (GUI) or a command-line (CLI).</li>
+<li><strong>Program execution</strong>: The system must be able to load a program into memory
+and run that program, end execution, either normally or abnormally.</li>
+<li><strong>I/O operations</strong>: A running program may require I/O, which may involve a file
+or an I/O device.</li>
+<li><strong>File-system manipulation</strong>: The file system is of particular interest. Programs
+need to read and write files and directories, create and delete them, search
+them, list file information, manage permissions, and more.</li>
+<li><strong>Communication</strong>: Processors may exchange information, on the same computer
+or between computers over a network.</li>
+<li><strong>Error detection</strong>: OS needs to be constantly aware of possible errors:
+<ul>
+<li>May occur in the CPU and memory hardware, in I/O devices, in user programs,
+and more.</li>
+<li>For each type of error, the OS should take the appropriate action to ensure
+correct and consistent computing.</li>
+<li>Debugging facilities can greatly enhance the user's and programmer's abilities
+to efficiently use the system.</li>
+</ul>
+</li>
+</ul>
+<p>Another set of OS functions exist for ensuring the efficient operation of the
+system itself via resource sharing.</p>
+<ul>
+<li><strong>Resource allocation</strong>: When multiple users or multiple jobs are running
+concurrently, resources must be allocated to each of them.</li>
+<li><strong>Accounting</strong>: To keep track of which users use how much and what kinds of
+resources.</li>
+<li><strong>Protection and security</strong>: The owners of information stored in a multi-user
+or networked computer system may want to control use of that information. Concurrent
+processes should not interfere with each other.
+<ul>
+<li>Protection involves ensuring that all access to system resources is controlled.</li>
+<li>Security of the system from outsiders requires user authentication. This also
+extends to defending external I/O devices from invalid access attempts.</li>
+<li>If a system is to be protected and secure, pre-cautions must be instituted
+throughout it. A chain is only as strong as its weakest link.</li>
+</ul>
+</li>
+</ul>
+<h2 id="system-calls"><a class="header" href="#system-calls">System Calls</a></h2>
+<p>System calls provide an interface to the services made available by an operating
+system. These calls are generally written in higher-level languages such as
+C and C++. These system calls however, are mostly accessed by programs via
+a high-level application programming interface (API) rather than direct system
+call use.</p>
+<p>The three most common APIs are Win32 API for Windows, POSIX API for POSIX-based systems,
+and JAVA API for the Java virtual machine (JVM)</p>
+<p><img src="../media/standard_api_example.png" alt="Figure: Example of standard api." /></p>
+<p>Typically, a number is associated with each system call. The system-call
+interface maintains a table indexed according to these numbers. The system call
+interface invokes the intended system call in the OS kernel and returns a status
+of the systema call and any return values. The caller needs to know nothing about
+how the system call is implemented, it just needs to obey the API and understand
+what the OS will do as a result call.</p>
+<p><img src="../media/open_system_call_example.png" alt="Figure: The handling of a user application invoking the open() system call." />
+<strong>Figure: The handling of a user application invoking the <code>open()</code> system call.</strong></p>
+<p>There are many types of system calls:</p>
+<ul>
+<li>Process control</li>
+<li>File management</li>
+<li>Device management</li>
+<li>Information maintenance</li>
+<li>Communications</li>
+<li>Protection</li>
+</ul>
+<p>Often, more information is required than simply the identity of the system call.
+There are three general methods used to pass parameters to the OS:</p>
+<ol>
+<li>Pass parameters into registers. This won't always work however as there may
+be more parameters than registers.</li>
+<li>Store parameters in a block, or table, in memory, and pass the address of 
+the block as a parameter in a register.</li>
+<li>Parameters are placed, or pushed, onto the stack by the program and popped
+off the stack by the operating system. This method does not limit the number
+length of the parameters being passed.</li>
+</ol>
+<p><img src="../media/pass_params_as_table.png" alt="Figure: Passing of parameters as a table." />
+<strong>Figure: Passing of parameters as a table.</strong></p>
+<h2 id="system-programs"><a class="header" href="#system-programs">System Programs</a></h2>
+<p>System programs provide a convenient environment for program development and 
+execution. They can be generally divided into:</p>
+<ul>
+<li>File manipulation</li>
+<li>Status information sometimes stored in a file modification</li>
+<li>Programming language support</li>
+<li>Program loading and execution</li>
+<li>Communications</li>
+<li>Background services</li>
+<li>Application programs</li>
+</ul>
+<h2 id="unix"><a class="header" href="#unix">UNIX</a></h2>
+<p>UNIX is limited by hardware functionality. The original UNIX operating system
+had limited structing. The UNIX OS consists of two separable parts:</p>
+<ol>
+<li>Systems programs</li>
+<li>The kernel:
+<ul>
+<li>Consists of everything below the system-call interface and above the
+physical hardware.</li>
+<li>Provides the file system, CPU scheduling, memory management, and other
+operating-system functions.</li>
+</ul>
+</li>
+</ol>
+<h2 id="operating-system-structure"><a class="header" href="#operating-system-structure">Operating System Structure</a></h2>
+<p>There are a few ways to organise an operating system.</p>
+<h3 id="layered"><a class="header" href="#layered">Layered</a></h3>
+<p>The operating system is divided into a number of layers, each built on top
+of the lower layers. The bottom layer (layer 0), is the hardware; the highest
+is the user interface.</p>
+<p>Due to the modularity, layers are selected such that each uses functions and 
+services of only lower-level layers.</p>
+<p><img src="../media/layered_os.png" alt="Figure: A layered operating system." />
+<strong>Figure: A layered operating system.</strong></p>
+<h3 id="microkernel-system"><a class="header" href="#microkernel-system">Microkernel System</a></h3>
+<p>In this organisation method, as much as possible is moved from the kernel into 
+user space. An example OS that uses a microkernel is Mach, which parts of the
+MacOSX kernel (Darwin) is based upon. Communication takes place between user 
+modules via message passing.</p>
+<div class="table-wrapper"><table><thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead><tbody>
+<tr><td>Easier to extend a microkernel</td><td>Performance overhead of user space to kernel space communication</td></tr>
+<tr><td>Easier to port the operating system to new architectures</td><td></td></tr>
+<tr><td>More reliable (less code is running in kernel mode)</td><td></td></tr>
+<tr><td>More secure</td><td></td></tr>
+</tbody></table>
+</div>
+<p><img src="../media/microkernel_os.png" alt="Figure: Architecture of a typical microkernel." />
+<strong>Figure: Architecture of a typical microkernel.</strong></p>
+<h3 id="hybrid-system"><a class="header" href="#hybrid-system">Hybrid System</a></h3>
+<p>Most modern operating systems don't use a single model but a use concepts from
+a variety. Hybrid systems combine multiple approaches to address performance, security,
+and usability needs.</p>
+<p>For example, Linux is monolithic, because having the operating system in a 
+single address space provides very efficient performance. However, it's also 
+modular, so that new functionality can be dynamically added to the kernel.</p>
+<h2 id="modules"><a class="header" href="#modules">Modules</a></h2>
+<p>Most modern operating systems implement loadable kernel modules (LKMs).
+Here, the kernel has a set of core components and can link in additional 
+services via modules, either at boot time or during run time</p>
+<p>Each core component is separate, can talk to others via known interfaces,
+and is loadable as needed within the kernel.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../.week_2/preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../week_2/arrays.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../.week_2/preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../week_2/arrays.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

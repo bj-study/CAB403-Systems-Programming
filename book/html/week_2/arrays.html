@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Week 1 - CAB403-Systems-Programming</title>
+        <title>Arrays - CAB403-Systems-Programming</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html" class="active"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html" class="active"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,17 +144,145 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="week-1"><a class="header" href="#week-1">Week 1</a></h1>
+                        <h1 id="arrays"><a class="header" href="#arrays">Arrays</a></h1>
+<p>An array is a contiguous sequence of data items of the same type.
+An array name is an address, or constant pointer value, to the first element 
+in said array.</p>
+<p>Aggregate operations on an array are not valid in C, this means that you cannot
+assign an array to another array. To copy an array you must either copy it component-wise 
+(typically via a loop) or via the <code>memcpy()</code> function in <code>string.h</code>.</p>
+<p><strong>Example 1: Arrays in practice</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+const int N = 5;
+
+int main(void) {
+    // Allocate space for a[0] to a[4]
+    int a[N];
+    int i;
+    int sum = 0;
+
+    // Fill the array
+    for (i = 0; i &lt; N; i++) {
+        a[i] = 7 + i * i;
+    }
+
+    // Print the array
+    for (i = 0; i &lt; N; i++) {
+        printf(&quot;a[%d] = %d\n&quot;, i, a[i]);
+    }
+
+    // Sum the elements
+    for (i = 0; i &lt; N; i++) {
+        sum += a[i];
+    }
+
+    printf(&quot;\nsum = %d\n&quot;, sum);
+
+    return 0;
+}
+</code></pre>
+<p><strong>Example 2: Arrays and Pointers</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+const int N = 5;
+
+int main(void) {
+    int a[N];
+    int sum;
+    int *p;
+
+    // The following two calls are the same
+    p = a;
+    p = &amp;a[0];
+
+    // The following two calls are the same
+    p = a + 1;
+    p = &amp;a[1];
+    
+
+    // Version 1
+    sum = 0;
+
+    for (int i = 0; i &lt; N; i++) {
+        sum += a[i];
+    }
+    
+    // Version 2
+    sum = 0;
+
+    for (int i = 0; i &lt; N; i++) {
+        sum += *(a + i);
+    }
+}
+</code></pre>
+<p><strong>Example 3: Bubble Sort</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swap(int *arr, int i, int j);
+void bubble_sort(int *arr, int n);
+
+void main(void) {
+    int arr[] = { 5, 1, 4, 2, 8 };
+    int N = sizeof(arr) / sizeof(int);
+
+    bubble_sort(arr, N);
+
+    for (int i = 0; i &lt; N; i++) {
+        printf(&quot;%d: %d\n&quot;, i, arr[i]);
+    }
+
+    return 0;
+}
+
+void swap(int *arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+void bubble_sort(int *arr, int n) {
+    for (int i = 0; i &lt; n - 1; i++) {
+        for (int j = 0; j &lt; n - 1; j++) {
+            if (arr[j] &gt; arr[j + 1]) {
+                swap(arr, j, j + 1);
+            }
+        }
+    }
+}
+</code></pre>
+<p><strong>Example 4: Copying an Array</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+    // Copying an array component-wise
+    int array_one[5] = { 1, 2, 3, 4, 5 };
+    int array_two[5];
+
+    for (int idx = 0; idx &lt; 5; idx++) {
+        array_two[idx] = array_one[idx];
+    }
+
+    // Copying an array via memcpy
+    memcpy(array_two, array_one, sizeof(int) * 5);
+}
+</code></pre>
+<h2 id="relevant-links"><a class="header" href="#relevant-links">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/container/array">cppreference - array</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/string/byte/memcpy">cppreference - memcpy</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../week_2/operating-system-structures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../week_1/operating-systems.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../week_2/strings.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -164,11 +292,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../week_2/operating-system-structures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../week_1/operating-systems.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../week_2/strings.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

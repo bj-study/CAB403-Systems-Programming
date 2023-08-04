@@ -33,6 +33,32 @@
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Custom JS scripts for mdbook-pdf PDF generation -->
+        <script type='text/javascript'>
+            let markAllContentHasLoadedForPrinting = () =>
+                window.setTimeout(
+                    () => {
+                        let p = document.createElement('div');
+                        p.setAttribute('id', 'content-has-all-loaded-for-mdbook-pdf-generation');
+                        document.body.appendChild(p);
+                    }, 100
+                );
+
+            window.addEventListener('load', () => {
+                // Expand all the <details> elements for printing.
+                r = document.getElementsByTagName('details');
+                for (let i of r)
+                    i.open = true;
+
+                try {
+                    MathJax.Hub.Register.StartupHook('End', markAllContentHasLoadedForPrinting);
+                } catch (e) {
+                    markAllContentHasLoadedForPrinting();
+                }
+            });
+        </script>
+    <div style="display: none"><a href="#preface">preface</a><a href="#.week_1-preface">.week_1-preface</a><a href="#week_1-operating-systems">week_1-operating-systems</a><a href="#week_1-input_and_output">week_1-input_and_output</a><a href="#week_1-pointers">week_1-pointers</a><a href="#week_1-functions">week_1-functions</a><a href="#.week_2-preface">.week_2-preface</a><a href="#week_2-operating-system-structures">week_2-operating-system-structures</a><a href="#week_2-arrays">week_2-arrays</a><a href="#week_2-strings">week_2-strings</a><a href="#week_2-structures">week_2-structures</a><a href="#week_2-memory_management">week_2-memory_management</a></div>
     </head>
     <body>
     <div id="body-container">
@@ -84,7 +110,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="chapter-item expanded "><a href=".week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="preface.html">Preface</a></li><li class="chapter-item expanded "><a href=".week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href=".week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -385,6 +411,10 @@ int *b = &amp;a;
 
 printf(&quot;Values: %d == %d\nAddresses: %p == %p\n&quot;, *b, a, b, &amp;a);
 </code></pre>
+<h2 id="relevant-links-1"><a class="header" href="#relevant-links-1">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/language/pointer">cppreference - pointer</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
 <p>A function construct in C is used to write code that solves a (small) problem.
 A procedural C program is made up of one or more functions, one of them being
@@ -475,6 +505,472 @@ void swapx(int *a, int *b) {
     printf(&quot;within function - a: %d, b: %b\n&quot;, *a, *b); // &quot;within function - a: 20, b: 10&quot;
 }
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="week-2"><a class="header" href="#week-2">Week 2</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="operating-system-structures"><a class="header" href="#operating-system-structures">Operating System Structures</a></h1>
+<h2 id="operating-system-services"><a class="header" href="#operating-system-services">Operating System Services</a></h2>
+<p>Operating systems provide an environment for execution of programs and services
+to programs and users.</p>
+<p>There are many operating system services that provide functions that are
+helpful to the user such as:</p>
+<ul>
+<li><strong>User interface</strong>: Almost all operating systems have a user interface. This can
+be in the form of a graphical user interface (GUI) or a command-line (CLI).</li>
+<li><strong>Program execution</strong>: The system must be able to load a program into memory
+and run that program, end execution, either normally or abnormally.</li>
+<li><strong>I/O operations</strong>: A running program may require I/O, which may involve a file
+or an I/O device.</li>
+<li><strong>File-system manipulation</strong>: The file system is of particular interest. Programs
+need to read and write files and directories, create and delete them, search
+them, list file information, manage permissions, and more.</li>
+<li><strong>Communication</strong>: Processors may exchange information, on the same computer
+or between computers over a network.</li>
+<li><strong>Error detection</strong>: OS needs to be constantly aware of possible errors:
+<ul>
+<li>May occur in the CPU and memory hardware, in I/O devices, in user programs,
+and more.</li>
+<li>For each type of error, the OS should take the appropriate action to ensure
+correct and consistent computing.</li>
+<li>Debugging facilities can greatly enhance the user's and programmer's abilities
+to efficiently use the system.</li>
+</ul>
+</li>
+</ul>
+<p>Another set of OS functions exist for ensuring the efficient operation of the
+system itself via resource sharing.</p>
+<ul>
+<li><strong>Resource allocation</strong>: When multiple users or multiple jobs are running
+concurrently, resources must be allocated to each of them.</li>
+<li><strong>Accounting</strong>: To keep track of which users use how much and what kinds of
+resources.</li>
+<li><strong>Protection and security</strong>: The owners of information stored in a multi-user
+or networked computer system may want to control use of that information. Concurrent
+processes should not interfere with each other.
+<ul>
+<li>Protection involves ensuring that all access to system resources is controlled.</li>
+<li>Security of the system from outsiders requires user authentication. This also
+extends to defending external I/O devices from invalid access attempts.</li>
+<li>If a system is to be protected and secure, pre-cautions must be instituted
+throughout it. A chain is only as strong as its weakest link.</li>
+</ul>
+</li>
+</ul>
+<h2 id="system-calls"><a class="header" href="#system-calls">System Calls</a></h2>
+<p>System calls provide an interface to the services made available by an operating
+system. These calls are generally written in higher-level languages such as
+C and C++. These system calls however, are mostly accessed by programs via
+a high-level application programming interface (API) rather than direct system
+call use.</p>
+<p>The three most common APIs are Win32 API for Windows, POSIX API for POSIX-based systems,
+and JAVA API for the Java virtual machine (JVM)</p>
+<p><img src="week_2/../media/standard_api_example.png" alt="Figure: Example of standard api." /></p>
+<p>Typically, a number is associated with each system call. The system-call
+interface maintains a table indexed according to these numbers. The system call
+interface invokes the intended system call in the OS kernel and returns a status
+of the systema call and any return values. The caller needs to know nothing about
+how the system call is implemented, it just needs to obey the API and understand
+what the OS will do as a result call.</p>
+<p><img src="week_2/../media/open_system_call_example.png" alt="Figure: The handling of a user application invoking the open() system call." />
+<strong>Figure: The handling of a user application invoking the <code>open()</code> system call.</strong></p>
+<p>There are many types of system calls:</p>
+<ul>
+<li>Process control</li>
+<li>File management</li>
+<li>Device management</li>
+<li>Information maintenance</li>
+<li>Communications</li>
+<li>Protection</li>
+</ul>
+<p>Often, more information is required than simply the identity of the system call.
+There are three general methods used to pass parameters to the OS:</p>
+<ol>
+<li>Pass parameters into registers. This won't always work however as there may
+be more parameters than registers.</li>
+<li>Store parameters in a block, or table, in memory, and pass the address of 
+the block as a parameter in a register.</li>
+<li>Parameters are placed, or pushed, onto the stack by the program and popped
+off the stack by the operating system. This method does not limit the number
+length of the parameters being passed.</li>
+</ol>
+<p><img src="week_2/../media/pass_params_as_table.png" alt="Figure: Passing of parameters as a table." />
+<strong>Figure: Passing of parameters as a table.</strong></p>
+<h2 id="system-programs"><a class="header" href="#system-programs">System Programs</a></h2>
+<p>System programs provide a convenient environment for program development and 
+execution. They can be generally divided into:</p>
+<ul>
+<li>File manipulation</li>
+<li>Status information sometimes stored in a file modification</li>
+<li>Programming language support</li>
+<li>Program loading and execution</li>
+<li>Communications</li>
+<li>Background services</li>
+<li>Application programs</li>
+</ul>
+<h2 id="unix"><a class="header" href="#unix">UNIX</a></h2>
+<p>UNIX is limited by hardware functionality. The original UNIX operating system
+had limited structing. The UNIX OS consists of two separable parts:</p>
+<ol>
+<li>Systems programs</li>
+<li>The kernel:
+<ul>
+<li>Consists of everything below the system-call interface and above the
+physical hardware.</li>
+<li>Provides the file system, CPU scheduling, memory management, and other
+operating-system functions.</li>
+</ul>
+</li>
+</ol>
+<h2 id="operating-system-structure-1"><a class="header" href="#operating-system-structure-1">Operating System Structure</a></h2>
+<p>There are a few ways to organise an operating system.</p>
+<h3 id="layered"><a class="header" href="#layered">Layered</a></h3>
+<p>The operating system is divided into a number of layers, each built on top
+of the lower layers. The bottom layer (layer 0), is the hardware; the highest
+is the user interface.</p>
+<p>Due to the modularity, layers are selected such that each uses functions and 
+services of only lower-level layers.</p>
+<p><img src="week_2/../media/layered_os.png" alt="Figure: A layered operating system." />
+<strong>Figure: A layered operating system.</strong></p>
+<h3 id="microkernel-system"><a class="header" href="#microkernel-system">Microkernel System</a></h3>
+<p>In this organisation method, as much as possible is moved from the kernel into 
+user space. An example OS that uses a microkernel is Mach, which parts of the
+MacOSX kernel (Darwin) is based upon. Communication takes place between user 
+modules via message passing.</p>
+<div class="table-wrapper"><table><thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead><tbody>
+<tr><td>Easier to extend a microkernel</td><td>Performance overhead of user space to kernel space communication</td></tr>
+<tr><td>Easier to port the operating system to new architectures</td><td></td></tr>
+<tr><td>More reliable (less code is running in kernel mode)</td><td></td></tr>
+<tr><td>More secure</td><td></td></tr>
+</tbody></table>
+</div>
+<p><img src="week_2/../media/microkernel_os.png" alt="Figure: Architecture of a typical microkernel." />
+<strong>Figure: Architecture of a typical microkernel.</strong></p>
+<h3 id="hybrid-system"><a class="header" href="#hybrid-system">Hybrid System</a></h3>
+<p>Most modern operating systems don't use a single model but a use concepts from
+a variety. Hybrid systems combine multiple approaches to address performance, security,
+and usability needs.</p>
+<p>For example, Linux is monolithic, because having the operating system in a 
+single address space provides very efficient performance. However, it's also 
+modular, so that new functionality can be dynamically added to the kernel.</p>
+<h2 id="modules"><a class="header" href="#modules">Modules</a></h2>
+<p>Most modern operating systems implement loadable kernel modules (LKMs).
+Here, the kernel has a set of core components and can link in additional 
+services via modules, either at boot time or during run time</p>
+<p>Each core component is separate, can talk to others via known interfaces,
+and is loadable as needed within the kernel.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="arrays"><a class="header" href="#arrays">Arrays</a></h1>
+<p>An array is a contiguous sequence of data items of the same type.
+An array name is an address, or constant pointer value, to the first element 
+in said array.</p>
+<p>Aggregate operations on an array are not valid in C, this means that you cannot
+assign an array to another array. To copy an array you must either copy it component-wise 
+(typically via a loop) or via the <code>memcpy()</code> function in <code>string.h</code>.</p>
+<p><strong>Example 1: Arrays in practice</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+const int N = 5;
+
+int main(void) {
+    // Allocate space for a[0] to a[4]
+    int a[N];
+    int i;
+    int sum = 0;
+
+    // Fill the array
+    for (i = 0; i &lt; N; i++) {
+        a[i] = 7 + i * i;
+    }
+
+    // Print the array
+    for (i = 0; i &lt; N; i++) {
+        printf(&quot;a[%d] = %d\n&quot;, i, a[i]);
+    }
+
+    // Sum the elements
+    for (i = 0; i &lt; N; i++) {
+        sum += a[i];
+    }
+
+    printf(&quot;\nsum = %d\n&quot;, sum);
+
+    return 0;
+}
+</code></pre>
+<p><strong>Example 2: Arrays and Pointers</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+const int N = 5;
+
+int main(void) {
+    int a[N];
+    int sum;
+    int *p;
+
+    // The following two calls are the same
+    p = a;
+    p = &amp;a[0];
+
+    // The following two calls are the same
+    p = a + 1;
+    p = &amp;a[1];
+    
+
+    // Version 1
+    sum = 0;
+
+    for (int i = 0; i &lt; N; i++) {
+        sum += a[i];
+    }
+    
+    // Version 2
+    sum = 0;
+
+    for (int i = 0; i &lt; N; i++) {
+        sum += *(a + i);
+    }
+}
+</code></pre>
+<p><strong>Example 3: Bubble Sort</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swap(int *arr, int i, int j);
+void bubble_sort(int *arr, int n);
+
+void main(void) {
+    int arr[] = { 5, 1, 4, 2, 8 };
+    int N = sizeof(arr) / sizeof(int);
+
+    bubble_sort(arr, N);
+
+    for (int i = 0; i &lt; N; i++) {
+        printf(&quot;%d: %d\n&quot;, i, arr[i]);
+    }
+
+    return 0;
+}
+
+void swap(int *arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}
+
+void bubble_sort(int *arr, int n) {
+    for (int i = 0; i &lt; n - 1; i++) {
+        for (int j = 0; j &lt; n - 1; j++) {
+            if (arr[j] &gt; arr[j + 1]) {
+                swap(arr, j, j + 1);
+            }
+        }
+    }
+}
+</code></pre>
+<p><strong>Example 4: Copying an Array</strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main(void) {
+    // Copying an array component-wise
+    int array_one[5] = { 1, 2, 3, 4, 5 };
+    int array_two[5];
+
+    for (int idx = 0; idx &lt; 5; idx++) {
+        array_two[idx] = array_one[idx];
+    }
+
+    // Copying an array via memcpy
+    memcpy(array_two, array_one, sizeof(int) * 5);
+}
+</code></pre>
+<h2 id="relevant-links-2"><a class="header" href="#relevant-links-2">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/cpp/container/array">cppreference - array</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/string/byte/memcpy">cppreference - memcpy</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="strings"><a class="header" href="#strings">Strings</a></h1>
+<p>A string is a one-dimensional array of type <code>char</code>. All strings must end with a
+null character <code>\0</code> which is a byte used to represent the end of a string.</p>
+<p>A character in a string can
+be accessed either by an element in an array of by making use of a pointer.</p>
+<p><strong>Example 1: Strings in practice</strong></p>
+<pre><code class="language-c">char *first = &quot;john&quot;;
+char last[6];
+
+last[0] = 's';
+last[1] = 'm';
+last[2] = 'i';
+last[3] = 't';
+last[4] = 'h';
+last[5] = '\0';
+
+printf(&quot;Name: %s, len: %lu&quot;, first, strlen(first));
+</code></pre>
+<h2 id="relevant-links-3"><a class="header" href="#relevant-links-3">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Null-terminated_string">Wikipedia - Null-terminated string</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="structures"><a class="header" href="#structures">Structures</a></h1>
+<p>Structures are named collections of data which are able to be of varying types.</p>
+<p><strong>Example 1: Structures in practice</strong></p>
+<pre><code class="language-c">struct student {
+    char *last_name;
+    int student_id;
+    char grade;
+};
+
+// By using `typedef` we can avoid prefixing the type with `struct`
+typedef struct unit {
+    char *code;
+    char *name;
+} unit;
+
+void update_student(struct student *student);
+void update_grade(unit *unit);
+
+int main(void) {
+    struct student s1 = {
+        .last_name = &quot;smith&quot;,
+        .student_id = 119493029,
+        .grade = 'B',
+    };
+
+    s1.grade = 'A';
+
+    update_student(&amp;s1);
+
+
+    unit new_unit;
+
+    new_unit.name = &quot;Microprocessors and Digital Systems&quot;;
+
+    update_unit(&amp;new_unit);
+}
+
+void update_student(struct student *student) {
+    // `-&gt;` shorthand for dereference of struct
+    student-&gt;last_name = &quot;doe&quot;;
+    student-&gt;grade = 'C';
+}
+
+void update_unit(unit *unit) {
+    // `-&gt;` shorthand for dereference of struct
+    unit-&gt;code = &quot;CAB403&quot;;
+    unit-&gt;name = &quot;Systems Programming&quot;;
+}
+</code></pre>
+<h2 id="relevant-links-4"><a class="header" href="#relevant-links-4">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/c/language/struct">cppreference - Struct declaration</a></li>
+<li><a href="https://en.cppreference.com/w/cpp/language/typedef">cppreference - typedef specifier</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="dynamic-memory-management"><a class="header" href="#dynamic-memory-management">Dynamic Memory Management</a></h1>
+<p>Memory in a C program can be divided into four categories:</p>
+<ol>
+<li>Code memory</li>
+<li>Static data memory</li>
+<li>Runtime stack memory</li>
+<li>Heap memory</li>
+</ol>
+<h2 id="code-memory"><a class="header" href="#code-memory">Code Memory</a></h2>
+<p>Code memory is used to store machine instructions. As a program runs,
+machine instructions are read from memory and executed.</p>
+<h2 id="static-data-memory"><a class="header" href="#static-data-memory">Static Data Memory</a></h2>
+<p>Static data memory is used to store static data. There are two categories of
+static data: global and static variables.</p>
+<p>Global variables are variables defined outside the scope of any function as 
+can be seen in example 1. Static variables on the other hand are defined with
+the <code>static</code> modifier as seen in example 2.</p>
+<p>Both global and static variables have one value attached to them; they are
+assigned memory once; and they are initialised before <code>main</code> begins execution
+and will continue to exist until the end of execution.</p>
+<p><strong>Example 1: Global variables.</strong></p>
+<pre><code class="language-c">int counter = 0;
+
+int increment(void) {
+    counter++;
+
+    return counter;
+}
+</code></pre>
+<p><strong>Example 2: Static variables.</strong></p>
+<pre><code class="language-c">int increment(void) {
+    // will be initialised once
+    static int counter = 0;
+
+    // increments every time the function is called
+    counter++;
+
+    return counter;
+}
+</code></pre>
+<h2 id="runtime-stack-memory"><a class="header" href="#runtime-stack-memory">Runtime Stack Memory</a></h2>
+<p>Runtime stack memory is used by function calls and is FILO (First in, Last out).
+When a function is invoked, a block of memory is allocated by the runtime 
+stack to store the information about the function call. This block of memory 
+is termed as an <em>Activation Record</em>.</p>
+<p>The information about the function call includes:</p>
+<ul>
+<li>Return address.</li>
+<li>Internal registers and other machine-specific information.</li>
+<li>Parameters.</li>
+<li>Local variables.</li>
+</ul>
+<h2 id="heap-memory"><a class="header" href="#heap-memory">Heap Memory</a></h2>
+<p>Heap memory is memory that is allocated during the runtime of the program.
+On many systems, the heap is allocated in an opposite direction to the stack
+and grows towards the stack as more is allocated. On simple systems without 
+memory protection, this can cause the heap and stack to collide if too much
+memory is allocated to either one.</p>
+<p>To deal with this, C provides two functions in the standard library to handle
+dynamic memory allocation; <code>calloc()</code> (contiguous allocation) and <code>malloc()</code>
+(memory allocation).</p>
+<p><code>void *calloc(size_t n, size_t s)</code> returns a pointer to enough space in memory
+to store <code>n</code> objects, each of <code>s</code> bytes. The storage set aside is automatically
+initialised to zero.</p>
+<p><code>void *malloc(size_t s)</code> returns a pointer to a space of size <code>s</code> and leaves the
+memory uninitialised.</p>
+<p><strong>Example 3: <code>malloc()</code> and <code>calloc()</code></strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int num_of_elements;
+    int *ptr;
+    int sum = 0;
+  
+    printf(&quot;Enter number of elements: &quot;);
+    scanf(&quot;%d&quot;, &amp;num_of_elements);
+  
+    ptr = malloc(num_of_elements * sizeof(int));
+    // or
+    // ptr = calloc(num_of_elements, sizeof(int));
+   
+    if (ptr == NULL) {
+        printf(&quot;[Error] - Memory was unable to be allocated.&quot;);
+
+        exit(0);
+    }
+  
+    printf(&quot;Enter elements: &quot;);
+
+    for (int i = 0; i &lt; n; i++) {
+        scanf(&quot;%d&quot;, ptr + i);
+
+        sum += *(ptr + i);
+    }
+  
+    printf(&quot;Sum = %d&quot;, sum);
+    
+    free(ptr);
+  
+    return 0;
+}
+</code></pre>
+<h2 id="relevant-links-5"><a class="header" href="#relevant-links-5">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/c/memory/malloc">cppreference - malloc</a></li>
+<li><a href="https://en.cppreference.com/w/c/memory/calloc">cppreference - calloc</a></li>
+<li><a href="https://en.cppreference.com/w/c/memory/realloc">cppreference - realloc</a></li>
+<li><a href="https://en.cppreference.com/w/c/memory/free">cppreference - free</a></li>
+</ul>
 
                     </main>
 

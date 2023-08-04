@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Week 1 - CAB403-Systems-Programming</title>
+        <title>Dynamic Memory Management - CAB403-Systems-Programming</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html" class="active"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html" class="active"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -144,19 +144,125 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="week-1"><a class="header" href="#week-1">Week 1</a></h1>
+                        <h1 id="dynamic-memory-management"><a class="header" href="#dynamic-memory-management">Dynamic Memory Management</a></h1>
+<p>Memory in a C program can be divided into four categories:</p>
+<ol>
+<li>Code memory</li>
+<li>Static data memory</li>
+<li>Runtime stack memory</li>
+<li>Heap memory</li>
+</ol>
+<h2 id="code-memory"><a class="header" href="#code-memory">Code Memory</a></h2>
+<p>Code memory is used to store machine instructions. As a program runs,
+machine instructions are read from memory and executed.</p>
+<h2 id="static-data-memory"><a class="header" href="#static-data-memory">Static Data Memory</a></h2>
+<p>Static data memory is used to store static data. There are two categories of
+static data: global and static variables.</p>
+<p>Global variables are variables defined outside the scope of any function as 
+can be seen in example 1. Static variables on the other hand are defined with
+the <code>static</code> modifier as seen in example 2.</p>
+<p>Both global and static variables have one value attached to them; they are
+assigned memory once; and they are initialised before <code>main</code> begins execution
+and will continue to exist until the end of execution.</p>
+<p><strong>Example 1: Global variables.</strong></p>
+<pre><code class="language-c">int counter = 0;
+
+int increment(void) {
+    counter++;
+
+    return counter;
+}
+</code></pre>
+<p><strong>Example 2: Static variables.</strong></p>
+<pre><code class="language-c">int increment(void) {
+    // will be initialised once
+    static int counter = 0;
+
+    // increments every time the function is called
+    counter++;
+
+    return counter;
+}
+</code></pre>
+<h2 id="runtime-stack-memory"><a class="header" href="#runtime-stack-memory">Runtime Stack Memory</a></h2>
+<p>Runtime stack memory is used by function calls and is FILO (First in, Last out).
+When a function is invoked, a block of memory is allocated by the runtime 
+stack to store the information about the function call. This block of memory 
+is termed as an <em>Activation Record</em>.</p>
+<p>The information about the function call includes:</p>
+<ul>
+<li>Return address.</li>
+<li>Internal registers and other machine-specific information.</li>
+<li>Parameters.</li>
+<li>Local variables.</li>
+</ul>
+<h2 id="heap-memory"><a class="header" href="#heap-memory">Heap Memory</a></h2>
+<p>Heap memory is memory that is allocated during the runtime of the program.
+On many systems, the heap is allocated in an opposite direction to the stack
+and grows towards the stack as more is allocated. On simple systems without 
+memory protection, this can cause the heap and stack to collide if too much
+memory is allocated to either one.</p>
+<p>To deal with this, C provides two functions in the standard library to handle
+dynamic memory allocation; <code>calloc()</code> (contiguous allocation) and <code>malloc()</code>
+(memory allocation).</p>
+<p><code>void *calloc(size_t n, size_t s)</code> returns a pointer to enough space in memory
+to store <code>n</code> objects, each of <code>s</code> bytes. The storage set aside is automatically
+initialised to zero.</p>
+<p><code>void *malloc(size_t s)</code> returns a pointer to a space of size <code>s</code> and leaves the
+memory uninitialised.</p>
+<p><strong>Example 3: <code>malloc()</code> and <code>calloc()</code></strong></p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    int num_of_elements;
+    int *ptr;
+    int sum = 0;
+  
+    printf(&quot;Enter number of elements: &quot;);
+    scanf(&quot;%d&quot;, &amp;num_of_elements);
+  
+    ptr = malloc(num_of_elements * sizeof(int));
+    // or
+    // ptr = calloc(num_of_elements, sizeof(int));
+   
+    if (ptr == NULL) {
+        printf(&quot;[Error] - Memory was unable to be allocated.&quot;);
+
+        exit(0);
+    }
+  
+    printf(&quot;Enter elements: &quot;);
+
+    for (int i = 0; i &lt; n; i++) {
+        scanf(&quot;%d&quot;, ptr + i);
+
+        sum += *(ptr + i);
+    }
+  
+    printf(&quot;Sum = %d&quot;, sum);
+    
+    free(ptr);
+  
+    return 0;
+}
+</code></pre>
+<h2 id="relevant-links"><a class="header" href="#relevant-links">Relevant Links</a></h2>
+<ul>
+<li><a href="https://en.cppreference.com/w/c/memory/malloc">cppreference - malloc</a></li>
+<li><a href="https://en.cppreference.com/w/c/memory/calloc">cppreference - calloc</a></li>
+<li><a href="https://en.cppreference.com/w/c/memory/realloc">cppreference - realloc</a></li>
+<li><a href="https://en.cppreference.com/w/c/memory/free">cppreference - free</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../week_2/structures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../week_1/operating-systems.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -164,13 +270,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../week_2/structures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../week_1/operating-systems.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

@@ -22,3 +22,6 @@ int *b = &a;
 
 printf("Values: %d == %d\nAddresses: %p == %p\n", *b, a, b, &a);
 ```
+
+## Relevant Links
+- [cppreference - pointer](https://en.cppreference.com/w/cpp/language/pointer)
