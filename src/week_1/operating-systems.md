@@ -28,7 +28,7 @@ compilers, web browsers, database systems, video games.
 A bootstrap program is loaded at power-up or reboot. This program is typically
 stored in ROM or EPROM and is generally know as firmware. This bootstrap program
 is responsible for initialising all aspects of the system, loading the operating
-system kernal, and starting execution.
+system kernel, and starting execution.
 
 ## Computer System Organisation
 - I/O devices and the CPU can execute concurrently.
@@ -110,7 +110,7 @@ Storages systems are organised into a hierarchy:
 - Volatility.
 
 There is a device driver for each device controller used to manage I/O. They provide
-uniform interfaces between controllers and the kernal.
+uniform interfaces between controllers and the kernel.
 
 ## Caching
 Caching allows information to be copied into a faster storage system. The main memory
@@ -163,11 +163,11 @@ that users can interact with each job while it is running.
 which to run.
 
 ## Operating-System Operations
-Dual-mode operations (user mode and kernal mode) allow the OS to protect itself 
+Dual-mode operations (user mode and kernel mode) allow the OS to protect itself 
 and other system components. A mode bit provided by the hardware provides the ability
 to distinguish when a system is running user code or kernel code. Some instructions 
-are designated as privileged and are only executable in kernal mode. System calls
-are used to change the mode to kernal, a return from call resets the mode back to 
+are designated as privileged and are only executable in kernel mode. System calls
+are used to change the mode to kernel, a return from call resets the mode back to 
 user.
 
 Most CPUs also support multi-mode operations, i.e. virtual machine manages (VMM)

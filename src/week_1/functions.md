@@ -96,3 +96,28 @@ void swapx(int *a, int *b) {
 }
 ```
 
+**Example 4: Function pointers**
+```c
+#include <stdio.h>
+
+void function_a(int num) {
+    printf("Function A: %d\n", num);
+}
+
+void function_b(int num) {
+    printf("Function B: %d\n", num);
+}
+
+void caller(void (*function) (int)) {
+    function(1);
+    function(2);
+    function(3);
+}
+
+int main(void) {
+    caller(function_a);
+    caller(function_b);
+
+    return 0;
+}
+```

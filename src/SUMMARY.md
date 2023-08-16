@@ -14,3 +14,5 @@
     - [Dynamic Memory Management](./week_2/memory_management.md)
 - [Week 3](.week_3/preface.md)
     - [Processes](./week_3/processes.md)
+- [Week 4](.week_4/preface.md)
+    - [Threads](./week_4/threads.md)
