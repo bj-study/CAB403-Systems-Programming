@@ -16,3 +16,8 @@
     - [Processes](./week_3/processes.md)
 - [Week 4](.week_4/preface.md)
     - [Threads](./week_4/threads.md)
+- [Week 5](.week_5/preface.md)
+    - [Synchronisation](./week_5/synchronisation.md)
+    - [Synchronisation Examples](./week_5/synchronisation_examples.md)
+- [Week 8](.week_8/preface.md)
+    - [CPU Scheduling](./week_8/cpu_scheduling.md)

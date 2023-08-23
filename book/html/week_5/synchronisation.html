@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Synchronisation - CAB403-Systems-Programming</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_3/preface.html"><strong aria-hidden="true">3.</strong> Week 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_3/processes.html"><strong aria-hidden="true">3.1.</strong> Processes</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_4/preface.html"><strong aria-hidden="true">4.</strong> Week 4</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_4/threads.html"><strong aria-hidden="true">4.1.</strong> Threads</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_5/preface.html"><strong aria-hidden="true">5.</strong> Week 5</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_5/synchronisation.html" class="active"><strong aria-hidden="true">5.1.</strong> Synchronisation</a></li><li class="chapter-item expanded "><a href="../week_5/synchronisation_examples.html"><strong aria-hidden="true">5.2.</strong> Synchronisation Examples</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_8/preface.html"><strong aria-hidden="true">6.</strong> Week 8</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_8/cpu_scheduling.html"><strong aria-hidden="true">6.1.</strong> CPU Scheduling</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CAB403-Systems-Programming</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="synchronisation"><a class="header" href="#synchronisation">Synchronisation</a></h1>
+<p>A cooperating process is one that can affect or be affected by other processes 
+executing in the system. Cooperating processes can either directly share a logical
+address space or be allowed to share data through shared memory or message passing.
+Concurrent access to shared data may result in data inconsistency.</p>
+<p>A race condition occurs when several processes access and manipulate the same 
+data concurrently and the outcome of the execution depends on the particular order 
+in which the access takes place.</p>
+<h2 id="the-critical-section-problem"><a class="header" href="#the-critical-section-problem">The Critical-Section Problem</a></h2>
+<p>Consider a system of \(n\) processes. Each proces has a segment of code, called
+the critical section, in which the process may be accessing - and updating - data
+that is shared with at least one other process. When one process is executing in 
+its critical section, no other process is allowed  to execute in its critical 
+section. The critical-section problem is to design a protocol that the processes 
+can use to synchronise their activity so as to cooperatively share data.</p>
+<p>Each process must request permission to enter its critical section. The code
+implementing this request is the entry section. The critical section may be followed 
+by an exit section. The remaining code is the remainder section.</p>
+<p><img src="../media/process-structure.png" alt="Figure: General structure of a typical process." /><br />
+<strong>Figure: General structure of a typical process.</strong></p>
+<p>A solution to the critical-section problem must satisfy the following three
+requirements:</p>
+<ol>
+<li><strong>Mutual exclusion</strong>: If process \(P_i\) is executing in its critical section,
+then no other process can be executing in their critical sections.</li>
+<li><strong>Progress</strong>: If no process is executing in its critical section and some processes
+wish to enter their critical sections, then only those processes that are not executing
+in their remainder sections can participate in deciding which will enter its critical 
+section next, and this selection cannot be postponed indefinitely.</li>
+<li><strong>Bounded waiting</strong>: There exists a bound, or limit, on the number of times 
+that other processes are allowed to enter their critical sections after a process 
+has made a request to enter its critical section and before that request is granted.</li>
+</ol>
+<p>There are two general approaches used to handle critical sections in operating
+systems:</p>
+<ol>
+<li><strong>Preemptive kernels</strong>: A preemptive kernel allows a process to be preemped while 
+it's running in kernel mode.</li>
+<li><strong>Non-preemptive kernels</strong>: A non-preemptive kernel does not allow a process running
+in kernel mode to be preempted; A kernel-mode process will run until it exits kernel
+mode, blocks, or voluntarily yields control of the CPU.</li>
+</ol>
+<p>A non-preemptive kernel is essentially free from race conditions on kernel data
+structures as only one process is active in the kernel at a time. Preemptive
+kernels on the other hand are not and must be carefully designed to ensure that 
+shared kernel data is free from race conditions.</p>
+<p>Despite this, preemptive kernels are still preferred as:</p>
+<ul>
+<li>They allow a real-time process to preempt a process currently running in kernel 
+mode</li>
+<li>They are more responsive since there is less risk that a kernel-mode process 
+will run for an arbitrarily long period before relinquishing the processor to 
+waiting processes.</li>
+</ul>
+<h2 id="petersons-solution"><a class="header" href="#petersons-solution">Peterson's Solution</a></h2>
+<p>Peterson's solution is a software-based solution to the critical-section problem.
+Due to how modern computer architectures perform basic machine-language instructions,
+there are no guarantees that Peterson's solution will work correctly on such
+architectures.</p>
+<pre><code>int turn;
+boolean flag[2];
+
+while (true) {
+    flag[i] = true;
+    turn = j;
+
+    while (flag[j] &amp;&amp; turn == j);
+
+    // Critical section
+
+    flag[i] = false;
+
+    // Remainder section
+}
+</code></pre>
+<h2 id="hardware-support-for-synchronisation"><a class="header" href="#hardware-support-for-synchronisation">Hardware Support for Synchronisation</a></h2>
+<h3 id="memory-barriers"><a class="header" href="#memory-barriers">Memory Barriers</a></h3>
+<p>How a computer architecture determines what memory guarantees it will provide
+to an application program is known as its memory model. A memory model falls into
+one of two categories:</p>
+<ol>
+<li><strong>Strongly ordered</strong>: Where a memory modification on one processor is immediately
+visible to all other processors.</li>
+<li><strong>Weakly ordered</strong>: Where modifications to memory on one processor may not be.
+immediately visible to other processors.</li>
+</ol>
+<p>Memory models vary by processor type, so kernel developers cannot make assumptions
+regarding the visibility of modifications to memory on a shared-memory multiprocessor.
+To address this issue, computer architectures provide instructions that can force
+any changes in memory to be propagated to all other processors. Such instructions
+are know as memory barriers or memory fences.</p>
+<p>When a memory barrier instruction is performed, the system ensures that all loads
+and stores are completed before any subsequent load or store operations are performed.
+This ensures that even if instructions were re-ordered, the store operations are
+completed in memory and visible to other processors before future load or store
+operations are performed.</p>
+<p>Memory barriers are considered very low-level operations are are typically only
+used by kernel developers when writing specialised code that ensures mutual
+exclusion.</p>
+<h3 id="hardware-instructions"><a class="header" href="#hardware-instructions">Hardware Instructions</a></h3>
+<p>Many computer systems provide special hardware instructions that allow us either 
+to test and modify the content of a word or to swap the contents of two words
+atomically - that is, as one uninterruptible unit. These special instructions 
+can be used to solve the critical-section problem. Such examples of these instructions
+are <a href="https://en.wikipedia.org/wiki/Test-and-set"><code>test_and_set()</code></a> and 
+<a href="https://en.wikipedia.org/wiki/Compare-and-swap"><code>compare_and_swap</code></a>.</p>
+<pre><code class="language-c">boolean test_and_set(boolean *target) {
+    boolean rv = *target;
+    *target = true;
+
+    return rv;
+}
+</code></pre>
+<p><strong>Figure: The definition of the atomic <code>test_and_set()</code> instruction.</strong></p>
+<pre><code class="language-c">int compare_and_swap(int *value, int expected, int new_value) {
+    int temp = *value;
+
+    if (*value == expected) {
+        *value = new_value;
+    }
+
+    return temp;
+}
+</code></pre>
+<p><strong>Figure: The definition of the atomic <code>compare_and_swap()</code> instruction.</strong></p>
+<h3 id="atomic-variables"><a class="header" href="#atomic-variables">Atomic Variables</a></h3>
+<p>An atomic variable provides atomic operations on basic data types such as integers
+and booleans. Most systems that support atomic variables provide special atomic 
+data types as well as functions for acessing and manipulating atomic variables.
+These functions are often implemented using <code>compare_and_swap()</code> operations.</p>
+<p>For example, the following increments the atomic integer sequence:</p>
+<pre><code class="language-c">increment(&amp;sequence);
+</code></pre>
+<p>where the <code>increment()</code> function is implemented using the CAS instruction:</p>
+<pre><code class="language-c">void increment(atomic_int *v) {
+    int temp;
+
+    do {
+        temp = *v;
+    } while (temp != compare_and_swap(v, temp, temp + 1));
+}
+</code></pre>
+<p>It's important to note however that although atomic variables provide atomic 
+updates, they do not entirely solve race conditions in all circumstances.</p>
+<h2 id="mutex-locks"><a class="header" href="#mutex-locks">Mutex Locks</a></h2>
+<p>Mutex, short for mutual exclusion, locks are used to protect critical sections 
+and thus prevent race conditions. They act as high-level software tools to solve
+critical-section problems.</p>
+<p>A process must first acquire a lock before entering a critical section; it then
+releases the lock when it exits the critical section. The <code>acquire()</code> function
+acquires the lock, and the <code>release()</code> function releases the lock. A mutex lock 
+has a boolean variable <code>available</code> whose value indicates if the lock is available 
+or not. Calls to either <code>acquire()</code> or <code>release()</code> must be performed atomically.</p>
+<pre><code>acquire() {
+    while (!available); /* busy wait */
+    available = false;;
+}
+
+release() {
+    available = true;
+}
+</code></pre>
+<p>The type of mutex lock described above is also called a spin-lock due to the 
+process &quot;spinning&quot; while waiting for the lock to become available. The main 
+disadvantage with spin locks is that they require busy waiting. While a process 
+is in its critical section, any other process that tries to entir its critical 
+section must loop continuously in the call to <code>acquire()</code>. This wastes CPU cycles 
+that some other process might be able to use productively. On the other hand, 
+spinlocks do have an advantage in that no context switch is required when a process
+must wait on a lock.</p>
+<h2 id="semaphores"><a class="header" href="#semaphores">Semaphores</a></h2>
+<p>A semaphore \(S\) is an integer variable that, apart from initialisation, is
+accessed only through two standard atomic operations: <code>wait()</code> and <code>signal()</code>.</p>
+<p>Operating systems often distinguish between counting and binary semaphores. The
+value of a counting semaphore can range over an unrestricted domain. The value
+of a binary semaphore can range only between 0 and 1. </p>
+<p>Counting semaphores can be used to control access to a given resource consisting
+of a finite number of instances. The semaphore is initialised to a number of 
+resources available. Each process that wishes to use a resource performs a <code>wait()</code>
+operation on the semaphore (decrementing the count). When a process releases 
+resource, it performs a <code>signal()</code> operation (incrementing the count). When the 
+count for the semaphore goes to 0, all resources are being used. Processes wishing 
+to use a resource will block until the count becomes greater than 0.</p>
+<pre><code>wait(S) {
+    while (S &lt;= 0); // busy wait
+    S--;
+}
+
+signal (S) {
+    S++;
+}
+</code></pre>
+<p><strong>Figure: Semaphore with busy waiting.</strong></p>
+<p>It's important to note that some definitions of the <code>wait()</code> and <code>signal()</code> 
+semaphore operations, like the example above, present the same problem that 
+spinlocks do, busy waiting. To overcome this, other definition of these functions 
+are modified as to when a process executes <code>wait()</code>, it suspends itself rather 
+than busy waiting. Suspending the process puts it back a waiting queue associated 
+with the semaphore. Control is then transferred to the CPU scheduler, which selects 
+another process to execute. A process that is suspended, waiting on a semaphore 
+\(S\), should be restarted when some other process executes a <code>signal()</code> operation. 
+A process that is suspended can be restarted by a <code>wakeup()</code> operation which 
+changes the process from the waiting state to the ready state subsequently placing 
+it into the ready queue.</p>
+<pre><code>typedef struct{
+    int value;
+    struct process *list;
+} semaphore;
+
+wait(semaphore *S) {
+    S-&gt;value--;
+
+    if (S-&gt;value &lt; 0) {
+        add this process to S-&gt;list;
+        block();
+    }
+}
+
+signal(semaphore *S) {
+    S-&gt;value++;
+
+    if (S-&gt;value &lt;= 0) {
+        remove a process P from S-&gt;list;
+        wakeup(P);
+    }
+}
+</code></pre>
+<p><strong>Figure: Semaphore without busy waiting.</strong></p>
+<h2 id="monitors"><a class="header" href="#monitors">Monitors</a></h2>
+<p>An abstract data type - or ADT - encapsulates data with a set of functions to
+operate on that data that are independent of any specific implementation of the
+ADT. A monitor type is an ADT that includes a set of programmer-defined operations
+that are provided with mutual exclusion within the monitor. The monitor type
+also declares the variables whose values define the state of an instance of that
+type, along with the bodies of functions that operate on those variables.</p>
+<p>The representation of a monitor type cannot be used directly by the various 
+processes. Thus, a function defined within a monitor can access only those variables 
+declared locally within the monitor and its formal parameters. Similarly, the 
+local variables of a monitor can be accessed by only the local functions.</p>
+<p>The monitor construct ensures that only one process at a time is active within 
+the monitor. Consequently, the programmer does not need to code this synchronization 
+constraint explicitly. In some instances however, we need to define additional 
+synchronization mechanisms. These mechanisms are provided by the <code>condition</code> 
+construct. A programmer who needs to write a tailor-made synchronization scheme 
+can define one or more variables of type condition. The only operations that can 
+be invoked on a condition variable are <code>wait()</code> and <code>signal()</code>.</p>
+<p>The <code>wait()</code> means that the process invoking this operation is suspended until 
+another process invokes whereas the <code>signal()</code> operation resumes exactly one 
+suspended process. If no process is suspended, then the <code>signal()</code> operation has 
+no effect. Contrast this operation with the <code>signal()</code> operation associated with 
+semaphores, which always affects the state of the semaphore.</p>
+<p>Now suppose that, when the <code>x.signal()</code> operation is invoked by a process \(P\), 
+there exists a suspended process \(Q\) associated with condition <code>x</code>. Clearly, 
+if the suspended process \(Q\) is allowed to resume its execution, the signaling 
+process \(P\) must wait. Otherwise, both \(P\) and \(Q\) would be active 
+simultaneously within the monitor. Two possibilities exist:</p>
+<ol>
+<li><strong>Signal and wait</strong>: \(P\) either waits until \(Q\) leaves the monitor 
+or waits for another condition.</li>
+<li><strong>Signal and continue</strong>: \(Q\) either waits until \(P\) leaves the monitor 
+or waits for another condition.</li>
+</ol>
+<h2 id="liveness"><a class="header" href="#liveness">Liveness</a></h2>
+<p>Liveness refers to a set of properties that a system must satisfy to ensure that 
+processes make progress during their execution life cycle. A process waiting
+indefinitely is an example of a &quot;liveness failure&quot;. There are many different
+forms of liveness failure; however, all are generally characterised by poor
+performance and responsiveness.</p>
+<h3 id="deadlock"><a class="header" href="#deadlock">Deadlock</a></h3>
+<p>The implementation of a semaphore with a waiting queue may result in a situation 
+where two or more processes are waiting indefinitely for an event that can be
+caused only by one of the waiting processes. When such a state is reached, these
+processes are said to be deadlocked.</p>
+<h3 id="priority-inversion"><a class="header" href="#priority-inversion">Priority Inversion</a></h3>
+<p>A scheduling challenge arises when a higher-priority process needs to read or 
+modify kernel data that are currently being accessed by a lower-priority process 
+— or a chain of lower-priority processes. Since kernel data are typically protected 
+with a lock, the higher-priority process will have to wait for a lower-priority 
+one to finish with the resource. The situation becomes more complicated if the 
+lower-priority process is preempted in favor of another process with a higher 
+priority.</p>
+<p>This liveness problem is known as priority inversion, and it can occur only in 
+systems with more than two priorities. Typically, priority inversion is avoided 
+by implementing a priority-inheritance protocol. According to this protocol, 
+all processes that are accessing resources needed by a higher-priority process 
+inherit the higher priority until they are finished with the resources in question. 
+When they are finished, their priorities revert to their original values.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../.week_5/preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../week_5/synchronisation_examples.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../.week_5/preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../week_5/synchronisation_examples.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
