@@ -1,0 +1,545 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Deadlocks - CAB403-Systems-Programming</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../preface.html">Preface</a></li><li class="chapter-item expanded "><a href="../.week_1/preface.html"><strong aria-hidden="true">1.</strong> Week 1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_1/operating-systems.html"><strong aria-hidden="true">1.1.</strong> Operating Systems</a></li><li class="chapter-item expanded "><a href="../week_1/input_and_output.html"><strong aria-hidden="true">1.2.</strong> Input and Output</a></li><li class="chapter-item expanded "><a href="../week_1/pointers.html"><strong aria-hidden="true">1.3.</strong> Pointers</a></li><li class="chapter-item expanded "><a href="../week_1/functions.html"><strong aria-hidden="true">1.4.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_2/preface.html"><strong aria-hidden="true">2.</strong> Week 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_2/operating-system-structures.html"><strong aria-hidden="true">2.1.</strong> Operating System Structures</a></li><li class="chapter-item expanded "><a href="../week_2/arrays.html"><strong aria-hidden="true">2.2.</strong> Arrays</a></li><li class="chapter-item expanded "><a href="../week_2/strings.html"><strong aria-hidden="true">2.3.</strong> Strings</a></li><li class="chapter-item expanded "><a href="../week_2/structures.html"><strong aria-hidden="true">2.4.</strong> Structures</a></li><li class="chapter-item expanded "><a href="../week_2/memory_management.html"><strong aria-hidden="true">2.5.</strong> Dynamic Memory Management</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_3/preface.html"><strong aria-hidden="true">3.</strong> Week 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_3/processes.html"><strong aria-hidden="true">3.1.</strong> Processes</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_4/preface.html"><strong aria-hidden="true">4.</strong> Week 4</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_4/threads.html"><strong aria-hidden="true">4.1.</strong> Threads</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_5/preface.html"><strong aria-hidden="true">5.</strong> Week 5</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_5/synchronisation.html"><strong aria-hidden="true">5.1.</strong> Synchronisation</a></li><li class="chapter-item expanded "><a href="../week_5/synchronisation_examples.html"><strong aria-hidden="true">5.2.</strong> Synchronisation Examples</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_6/preface.html"><strong aria-hidden="true">6.</strong> Week 6</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_6/safety_critical_systems.html"><strong aria-hidden="true">6.1.</strong> Safety Critical Systems</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_8/preface.html"><strong aria-hidden="true">7.</strong> Week 8</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_8/cpu_scheduling.html"><strong aria-hidden="true">7.1.</strong> CPU Scheduling</a></li></ol></li><li class="chapter-item expanded "><a href="../.week_9/preface.html"><strong aria-hidden="true">8.</strong> Week 9</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../week_9/deadlocks.html" class="active"><strong aria-hidden="true">8.1.</strong> Deadlocks</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">CAB403-Systems-Programming</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="deadlocks"><a class="header" href="#deadlocks">Deadlocks</a></h1>
+<p>In a multi-programming environment, several threads may compete for a finite 
+number of resources. A thread requests resources; if the resources are not available
+at that time, the thread enters a waiting state. Sometimes, a waiting thread can
+never again change state because the resources it has requested are heldd by other 
+waiting threads. This is what is referred to as a deadlock. </p>
+<p>A thread must request a resource before using it and must release the resource 
+after using it. A thread may request as many resources as it requires to carry
+out its designated task. The number of resources requested may not exceed the 
+total number of resources available in the system.</p>
+<p>Under the normal mode of operation, a thread may utilise a resource in only the
+following sequence:</p>
+<ol>
+<li><strong>Request</strong>: The thread requests the resource. If the request cannot be granted
+immediately, then the requesting thread must wait until it can acquire the resource.</li>
+<li><strong>Use</strong>: The thread can operate on the resource.</li>
+<li><strong>Release</strong>: The thread releases the resource.</li>
+</ol>
+<p>The request and release of resources may be system calls such as:</p>
+<ul>
+<li><code>request()</code> and <code>release()</code> of a device.</li>
+<li><code>open()</code> and <code>close()</code> of a file.</li>
+<li><code>allocate()</code> and <code>free()</code> memory system calls.</li>
+</ul>
+<p>Request and release can alos be accomplished through the <code>wait()</code>a nd <code>signal()</code> 
+operations on semaphores and through <code>acquire()</code> and <code>release()</code> of a mutex lock.</p>
+<p>For each use of a kernel-managed resource by a thread, the operating system checks
+to make sure that the thread has requested and has been allocated the resource.
+A system table records whether each resource is free or allocated. For each resource
+that is allocated, the table also records the thread to which it is allocated.
+If a thread requests a resource that is currently allocated to another thread, 
+it can be added to a queue of threads waiting for this resource.</p>
+<pre><code class="language-c">// thread_one runs in this function
+void *do_work_one(void *param) {
+    pthread_mutex_lock(&amp;first_mutex);
+    pthread_mutex_lock(&amp;second_mutex);
+
+    // Do some work
+
+    pthread_mutex_unlock(&amp;second_mutex);
+    pthread_mutex_unlock(&amp;first_mutex);
+
+    pthread_exit(0);
+}
+
+// thread_two runs in this function
+void *do_work_two(void *param) {
+    pthread_mutex_lock(&amp;second_mutex);
+    pthread_mutex_lock(&amp;first_mutex);
+
+    // Do some work
+
+    pthread_mutex_unlock(&amp;first_mutex);
+    pthread_mutex_unlock(&amp;second_mutex);
+
+    pthread_exit(0);
+}
+</code></pre>
+<p><strong>Figure:</strong> Deadlock example.</p>
+<h2 id="livelock"><a class="header" href="#livelock">Livelock</a></h2>
+<p>Livelock is another form of liveness failure. It is similar to deadlock; both 
+prevent two or more threads from proceeding, but the threads are unable to
+processed for different reasons. Whereas deadlock occurs when every thread in a 
+set is blocked waiting for an event that can be caused only by another thread in
+the set, livelock occurs when a thread continuously attempts an action that fails.</p>
+<p>Livelock typically occurs when threads retry failing operations at the same time.
+It thus can generally be avoided by having each thread retry the failing operation
+at random times.</p>
+<pre><code class="language-c">// thread_one runs in this function
+void *do_work_one(void *param) {
+    int done = 0;
+
+    while (!done) {
+        pthread_mutex_lock(&amp;first_mutex);
+
+        if (pthread_mutex_trylock(&amp;second_mutex)) {
+            // Do some work
+
+            pthread_mutex_unlock(&amp;second_mutex);
+            pthread_mutex_unlock(&amp;first_mutex);
+
+            done = 1;
+        } else {
+            pthread_mutex_unlock(&amp;first_mutex);
+        }
+    }
+
+    pthread_exit(0);
+}
+
+// thread_two runs in this function
+void *do_work_two(void *param) {
+    int done = 0;
+
+    while (!done) {
+        pthread_mutex_lock(&amp;second_mutex);
+
+        if (pthread_mutex_trylock(&amp;first_mutex)) {
+            // Do some work
+
+            pthread_mutex_unlock(&amp;first_mutex);
+            pthread_mutex_unlock(&amp;second_mutex);
+
+            done = 1;
+        } else {
+            pthread_mutex_unlock(&amp;second_mutex);
+        }
+    }
+
+    pthread_exit(0);
+}
+</code></pre>
+<p><strong>Figure:</strong> Livelock example.</p>
+<h2 id="deadlock-charaterisation"><a class="header" href="#deadlock-charaterisation">Deadlock Charaterisation</a></h2>
+<p>A deadlock situation can arise if the following four conditions hold simultaneously
+in the system:</p>
+<ol>
+<li><strong>Mutual exclusion</strong>: At least one resource must be held in a non-sharable
+mode; that is, only one thread at a time can use the resource. If another thread
+requests that resource, the requesting thread must be delayed until the resource
+has been released.</li>
+<li><strong>Hold and wait</strong>: A thread must be holding at least one resource and waiting
+to acquire additional resources that are currently being held by other threads.</li>
+<li><strong>No preemption</strong>: Resources cannot be preempted; that is, a resource can be
+released only voluntarily by the thread holding it, after that thread has completed
+its task.</li>
+<li><strong>Circular wait</strong>: A set \(\{T_0, T_1, \dots, T_n\}\) of waiting threads
+must exist such that \(T_0\) is waiting for a resource held by \(T_1\), \(T_1\)
+is waiting for a resource held by \(T_2, \dots, T_{n-1}\) is waiting for a
+resource held by \(T_n\), and \(T_n\) is waiting for a resource held by \(T_0\).</li>
+</ol>
+<h2 id="resource-allocation-graph"><a class="header" href="#resource-allocation-graph">Resource-Allocation Graph</a></h2>
+<p>Deadlocks can be described more precisely in terms of a directed graph called
+a system resource-allocation graph. The set of vertices \(V\) is partitioned 
+into two different types of nodes:</p>
+<ol>
+<li>\(T = \{T_0, T_1, \dots, T_n\}\), the set consisting of all the active 
+threads in the system.</li>
+<li>\(R = \{R_0, R_1, \dots, R_m\}\), the set consisting of all resource types
+in the system.</li>
+</ol>
+<p>A directed edge from thread \(T_i\) to resource type \(R_j\) is denoted
+\(T_i \rightarrow R_j\) and is called a request edge; it signifies that thread 
+\(T_i\) has requested an instance of resource type \(R_j\) and is currently 
+waiting for that resource. A directed edge from resource type \(R_j\) to thread 
+\(T_i\) is denoted \(R_j \rightarrow T_i\) and is called an assignment edge; 
+it signifies that an instance of resource type \(R_j\) has been allocated to 
+thread \(T_i\).</p>
+<p>Pictorially, each thread \(T_i\) is represented as a circle and each resource 
+type \(R_j\) as a rectangle. An instance of a resource is represented by a dot
+within the rectangle. For example, the below graph depicts the following situation:</p>
+<ul>
+<li>The sets \(T\), \(R\), and \(E\):
+<ul>
+<li>\(T = \{T_1, T_2, T_3\}\)</li>
+<li>\(R = \{R_1, R_2, R_3, R_4\}\)</li>
+<li>\(E = \{T_1 \rightarrow R_1, T_2 \rightarrow R_3, R_1 \rightarrow T_2, R_2 \rightarrow T_2, R_2 \rightarrow T_1, R_3 \rightarrow T_3\}\)</li>
+</ul>
+</li>
+<li>Resource instances:
+<ul>
+<li>One instance of resource type \(R_1\)</li>
+<li>Two instances of resource type \(R_2\)</li>
+<li>One instance of resource type \(R_3\)</li>
+<li>Three instances of resource type \(R_4\)</li>
+</ul>
+</li>
+<li>Thread states:
+<ul>
+<li>Thread \(T_1\) is holding an instance of resource type \(R_2\) and is
+waiting for an instance of resource type \(R_1\).</li>
+<li>Thread \(T_2\) is holding an instance of resource type \(R_1\) and an 
+instance of \(R_2\) and is waiting for an instance of resource type \(R_3\).</li>
+<li>Thread \(T_3\) is holding an instance of resource type \(R_3\).</li>
+</ul>
+</li>
+</ul>
+<div align="center">
+    <img src="../media/resource_allocation_graph.png" alt="Figure: Resource-allocation graph." />
+    <figure><strong>Figure:</strong> Resource-allocation graph.</figure>
+</div>
+<p>Given the definition of a resource-allocation graph, it can be shown that, if 
+the graph contains no cycles, then no thread in the system is deadlocked. If
+the graph does contain a cycle, then a deadlock may exist.</p>
+<ul>
+<li>If each resource type has exactly one instance, then a cycle implies that a 
+deadlock has occurred. </li>
+<li>If the cycle involves only a set of resource types, each of which has only a 
+single instance, then a deadlock has occurred. In this case, a cycle in the graph 
+is both a necessary and sufficient condition for the existence of deadlock.</li>
+<li>If each resource type has several instances, then a cycle does not necessarily
+imply that a deadlock has occurred. In this case, a cycle in the graph is a necessary
+but not a sufficient condition for the existence of deadlock.</li>
+</ul>
+<div align="center">
+    <img src="../media/resource-allocation-graph-with-deadlock.png" alt="Figure: Resource-allocation graph with a deadlock." />
+    <figure><strong>Figure:</strong> Resource-allocation graph with a deadlock.</figure>
+</div>
+<div align="center">
+    <img src="../media/resource-allocation-graph-with-cycle-no-deadlock.png" alt="Figure: Resource-allocation graph with a cycle but no deadlock." />
+    <figure><strong>Figure:</strong> Resource-allocation graph with a cycle but no deadlock.</figure>
+</div>
+<p>If a resource-allocation graph does not have a cycle, then the system is not in
+a deadlocked state. If there is a cycle, then the system may or may not be in a
+deadlocked state.</p>
+<h2 id="methods-for-handling-deadlocks"><a class="header" href="#methods-for-handling-deadlocks">Methods for Handling Deadlocks</a></h2>
+<p>A deadlock problem can generally be dealt with in one of three ways:</p>
+<ol>
+<li>We can ignore the problem altogether and pretend that deadlocks never occur 
+in the system.</li>
+<li>We can use a protocol to prevent or avoid deadlocks, ensuring that the system
+will never enter a deadlocked state.</li>
+<li>We can allow the system to enter a deadlocked state, detect it, and recover.</li>
+</ol>
+<p>To ensure that deadlocks never occur, the system can use either a deadlock-prevention
+or a deadlock-avoidance scheme. Deadlock prevention provides a set of methods
+to ensure that at least one of the necessary conditions cannot hold. These methods
+prevent deadlocks by constraining how requests for resources can be made. Deadlock
+avoidance requires that the operation system be given additional information in
+advance concerning which resources a thread will request and use during its lifetime.
+With this additional information, the operating system can decide for each request
+whether or not the thread should wait.</p>
+<h2 id="deadlock-prevention"><a class="header" href="#deadlock-prevention">Deadlock Prevention</a></h2>
+<h3 id="mutual-exclusion"><a class="header" href="#mutual-exclusion">Mutual Exclusion</a></h3>
+<p>The mutual-exclusion condition must hold. That is, at least one resource must 
+be nonsharable. Sharable resources do not require mutually exclusive access and 
+thus cannot be involved in a deadlock. Read-only files are a good example of a 
+sharable resource. If several threads attempt to open a read-only file at the 
+same time, they can be granted simultaneous access to the file. A thread never 
+needs to wait for a sharable resource. In general, however, we cannot prevent 
+deadlocks by denying the mutual-exclusion condition, because some resources are 
+intrinsically nonsharable. For example, a mutex lock cannot be simultaneously 
+shared by several threads.</p>
+<h3 id="hold-and-wait"><a class="header" href="#hold-and-wait">Hold and Wait</a></h3>
+<p>To ensure that the hold-and-wait condition never occurs in the system, we must
+guarantee that, whenever a thread requests a resource, it does not hold any other
+resources.</p>
+<ul>
+<li>One protocol that can be used requires each thread to request and be allocated
+all its resources before it begins execution. This is impractical for most applications
+due to the dynamic nature of requesting resources.</li>
+<li>An alternative protocol allows a thread to request resources only when it has
+none. A thead may request some resources and use them. Before it can request
+additional resources, it must release all the resources that it is currently
+allocated.</li>
+</ul>
+<p>Both these protocols have two main disadvantages:</p>
+<ol>
+<li>Resource utilisation may be low since resources may be allocated but unused
+for a long period.</li>
+<li>Starvation is possible. A thread that needs several popular resources may have
+to wait indefinitely because at least one of the resources that it needs is always
+allocated to some other thread.</li>
+</ol>
+<h3 id="no-preemption"><a class="header" href="#no-preemption">No Preemption</a></h3>
+<p>The third necessary condition for deadlocks is that there be no preemption of 
+resources that have already been allocated. To ensure that this condition does 
+not hold, we can use the following protocol. If a thread is holding some resources 
+and requests another resource that cannot be immediately allocated to it (that 
+is, the thread must wait), then all resources the thread is currently holding 
+are preempted. In other words, these resources are implicitly released. The 
+preempted resources are added to the list of resources for which the thread is 
+waiting. The thread will be restarted only when it can regain its old resources, 
+as well as the new ones that it is requesting. </p>
+<p>Alternatively, if a thread requests some resources, we first check whether they 
+are available. If they are, we allocate them. If they are not, we check whether 
+they are allocated to some other thread that is waiting for additional resources. 
+If so, we preempt the desired resources from the waiting thread and allocate them 
+to the requesting thread. If the resources are neither available nor held by a 
+waiting thread, the requesting thread must wait. While it is waiting, some of its 
+resources may be preempted, but only if another thread requests them. A thread 
+can be restarted only when it is allocated the new resources it is requesting 
+and recovers any resources that were preempted while it was waiting.</p>
+<h3 id="circular-wait"><a class="header" href="#circular-wait">Circular Wait</a></h3>
+<p>TODO: Write about this.</p>
+<h2 id="deadlock-avoidance"><a class="header" href="#deadlock-avoidance">Deadlock Avoidance</a></h2>
+<p>An alternative method for avoiding deadlocks is to require additional information
+about how resources are to be requested. The various algorithms that use this
+approach differ in the amount and type of information required. The simplest and
+most useful model requires that each thread declare the maximum number of resources
+of each type that it may need. Given this prior information, it is possible to
+construct an algorithm that ensures that the system will never enter a deadlocked
+state.</p>
+<h3 id="safe-state"><a class="header" href="#safe-state">Safe State</a></h3>
+<p>A system is in a safe state only if there exists a safe sequence. In other words, 
+a state is safe if the system can allocate resources to each thread in some order
+and still avoid a deadlock. A sequence of threads \(&lt;T_1, T_2, \dots, T_n&gt;\)
+is a safe sequence for the current allocation if, for each \(T_i\), the resource
+requests that \(T_i\) can still make can be satisfied by the current available
+resources plus the resources held by all \(T_j\), with \(j &lt; i\). If no such
+sequence exists, then the system state is said to be unsafe.</p>
+<p>TODO: Check this content with the lecture.</p>
+<p>A safe state is not a deadlocked state. Conversely, a deadlocked state is an 
+unsafe state. Not all unsafe states are deadlocks however. As long as the state 
+is safe, the operating system can avoid unsafe states.</p>
+<h3 id="resource-allocation-graph-algorithm"><a class="header" href="#resource-allocation-graph-algorithm">Resource-Allocation-Graph Algorithm</a></h3>
+<p>TODO:</p>
+<h3 id="bankers-algorithm"><a class="header" href="#bankers-algorithm">Banker's Algorithm</a></h3>
+<p>TODO:</p>
+<h3 id="safety-algorithm"><a class="header" href="#safety-algorithm">Safety Algorithm</a></h3>
+<p>TODO:</p>
+<h3 id="resource-request-algorithm"><a class="header" href="#resource-request-algorithm">Resource-Request Algorithm</a></h3>
+<p>TODO:</p>
+<h2 id="deadlock-detection"><a class="header" href="#deadlock-detection">Deadlock Detection</a></h2>
+<p>TODO:</p>
+<h2 id="recovery-from-deadlock"><a class="header" href="#recovery-from-deadlock">Recovery from Deadlock</a></h2>
+<p>When a detection algorithm determines that a deadlock exists, several alternatives
+are available. One possibility is to inform the operator that a deadlock has
+occurred and to let the operator deal with the deadlock manually. Another possibility
+is to let the system recover from the deadlock automatically.</p>
+<p>There are two options for breaking a deadlock:</p>
+<ol>
+<li>Abort one or more threads to break the circular wait.</li>
+<li>Preempt some resources from one or more of the deadlocked threads.</li>
+</ol>
+<h3 id="process-and-thread-termination"><a class="header" href="#process-and-thread-termination">Process and Thread Termination</a></h3>
+<p>To eliminate deadlocks by aborting a process or thread, two methods can be used.
+In both methods, the system reclaims all resources allocated to the terminated
+processes.</p>
+<ol>
+<li><strong>Abort all deadlocked processes</strong>: This method will break the deadlock cycle,
+but at great expense. The deadlocked processes may have computed for a long time, 
+and the result of these partial computations must be discarded and probably will 
+have to be re-computed later.</li>
+<li><strong>Abort one process at a time until the deadlock cycle is eliminated</strong>: This 
+method incurs considerable overhead, since after each process is aborted, a
+deadlock-detection algorithm must be invoked.</li>
+</ol>
+<p>Aborting a process may not be easy. If the process was in the midst of updating
+a file, terminating it may leave that file in an incorrect state. If the partial
+termination method is used, then we must determine which deadlocked process
+(or processes) should be terminated. This determination is a policy decision, 
+similar to CPU-scheduling decisions. We should abort those processes whose 
+termination will incur the minimum cost. Many factors may affect which process
+is chosen, such as:</p>
+<ul>
+<li>What the priority of the process is.</li>
+<li>How long the process has computed and how much longer the process will compute
+before completing its designated task.</li>
+<li>How many and what types of resources the process has used.</li>
+<li>How many more resources the process needs in order to complete.</li>
+<li>How many processes will need to be terminated.</li>
+</ul>
+<h2 id="resource-preemption"><a class="header" href="#resource-preemption">Resource Preemption</a></h2>
+<p>To eliminate deadlocks using resource preemption, we successively preempt some
+resources from processes and give these resources to other processes until the
+deadlock cycle is broken. If preemption is required to deal with deadlocks, then
+three issues need to be addressed:</p>
+<ol>
+<li><strong>Selecting a victim</strong>: TODO: P367</li>
+<li><strong>Rollback</strong>: TODO</li>
+<li><strong>Starvation</strong>: TODO</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../.week_9/preface.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../.week_9/preface.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

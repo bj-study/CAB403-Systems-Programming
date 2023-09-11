@@ -110,7 +110,7 @@ difficult.
 each process for a time quantum. If the process does not relinquish the CPU before 
 its time quantum expires, the process is preempted, and another process is scheduled 
 to run for a time quantum.
-- **Priorirty Scheduling**: Priority scheduling assigns each process a priority,
+- **Priority Scheduling**: Priority scheduling assigns each process a priority,
 and the CPU is allocated to the process with the highest priority. Processes with 
 the same priority can be scheduled in FCFS order or using RR scheduling.
 - **Multilevel Queue Scheduling**: Multilevel queue scheduling partitions processes 
@@ -368,7 +368,12 @@ CPU to the start of the routine that services the interrupt.
 to stop one process and start another.
 
 ### Priority-Based Scheduling
+TODO
 ### Rate-Monotonic Scheduling
+TODO
 ### Earliest-Deadline-First Scheduling
+TODO
 ### Proportional Share Scheduling
+TODO
 ### POSIX Real-Time Scheduling
+TODO
