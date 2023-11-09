@@ -275,8 +275,27 @@ can be restarted only when it is allocated the new resources it is requesting
 and recovers any resources that were preempted while it was waiting.
 
 ### Circular Wait
+One way to ensure that this condition never holds is to impose a total ordering
+of all resource types and to require that each thread requests resources in an
+increasing oredr of enumeration.
 
-TODO: Write about this.
+```
+void transaction(Account from, Account to, double amount) {
+    mutex lock1;
+    mutex lock2;
+    lock1 = get_lock(from);
+    lock2 = get_lock(to);
+
+    acquire(lock1);
+        acquire(lock2);
+
+            withdraw(from, amount);
+            deposit(to, amount);
+
+        release(lock2);
+    release(lock1);
+}
+```
 
 ## Deadlock Avoidance
 An alternative method for avoiding deadlocks is to require additional information
@@ -295,8 +314,6 @@ is a safe sequence for the current allocation if, for each \\(T_i\\), the resour
 requests that \\(T_i\\) can still make can be satisfied by the current available
 resources plus the resources held by all \\(T_j\\), with \\(j < i\\). If no such
 sequence exists, then the system state is said to be unsafe.
-
-TODO: Check this content with the lecture.
 
 A safe state is not a deadlocked state. Conversely, a deadlocked state is an 
 unsafe state. Not all unsafe states are deadlocks however. As long as the state 
@@ -319,11 +336,70 @@ TODO:
 TODO:
 
 ## Deadlock Detection
+If a system does not employ either a deadlock-prevention or a deadlock-avoidance
+algorithm, then a deadlock situation may occur. In this environment, the system
+may provide:
+- An algorithm that examines the state ofo the system to determine whether a deadlock
+has occured.
+- An algorithm to recover from the deadlock.
 
-TODO:
+### Single Instance of Each Resource Type
+If all resources have only a single instance, then we can define a deadlock-detection
+algorithm that uses a variant of the resource-allocation graph by a wait-for graph.
+
+This graph is obtained from the resource-allocation graph by removing the resource
+nodes and collapsing the appropriate edges. More precisely, an edges from \\(T_i\\)
+to \\(T_j\\) in a wait-for graph implies that thread \\(T_i\\) is waiting for
+thread \\(T_j\\) to release a resource that \\(T_i\\) needs. An edge \\(T_i \rightarrow T_j\\)
+exists in a wait-for graph if and only if the corresponding resource-allocation
+graph contains two edges \\(T_i \rightarrow R_q\\) and \\(R_q \rightarrow T_i\\)
+for some resource \\(R_q\\).
+
+As before, a deadlock exists in the system if and only if the wait-for graph
+contains a cycle. To detect deadlocks, the system needs to maintain the wait-for
+graph and periodically invoke an algorithm that searches for a cycle in the graph.
+An algorithm to detect a cycle in a graph requires \\(O\(n^2\)\\) operations, where
+\\(n\\) is the number of vertices in the graph.
+
+### Several Instances of a Resource Type
+The wait-for graph scheme is not applicable to a resource-allocation system with
+multiple instances of each resource type. This algorithm employs several time-varying
+data structures that are similar to those used in the bankers algorithm:
+- **Available**: A vector of length \\(m\\) indicates the number of available 
+resources of each type.
+- **Allocation**: An \\(n \times m\\) matrix defines the number of resources of 
+each type currently allocated to each thread.
+- **Request**: An \\(n \times m\\) matrix indicates the current request of each 
+thread. If \\(Request\[i\]\[j\]\\) equals \\(k\\), then thread \\(T_i\\) is requesting \\(k\\)
+more instances of resource type \\(R_j\\).
+
+1. Let \\(Work\\) and \\(Finish\\) be vectors of length \\(m\\) and \\(n\\), respectively.
+Initialise \\(Work = Available\\). For \\(i = 0, 1, \dots, n-1\\), if \\(Allocation_i \ne 0\\),
+then \\(Finish\[i\] = false\\). Otherwise, \\(Finish\[i\] = true\\).
+2. Find an index \\(i\\) such that both,  
+    a: \\(Finish\[i\] == false\\)  
+    b: \\(Request_i \le Work\\)  
+If no such \\(i\\) exists, go to step 4.
+3. \\(Work = Work + Allocation_i\\)  
+\\(Finish\[i\] == true\\)  
+Go to step 2
+4. If \\(Finish[i] == false\\) for some \\(i, 0 \le i \le n\\), then the system 
+is in a deadlocked state. Moreover, if \\(Finish\[i\] == false\\), then thread
+\\(T_i\\) is deadlocked.
+
+This algorithm requires an order of \\(m \times n^2\\) operations to detect whether
+the system is in a deadlocked state.
+
+## Detection-Algorithm Usage
+When should we invoke the detection algorithm? The answer depends on two factors:
+1. How often is a deadlock likely to occur?
+2. How many threads will be affected by deadlock when it happens?
+
+If the detection algorithm is invoked at arbitrary points in time, the resource 
+graph may contain many cycles. In this case, we generally cannot tell which of
+the many deadlocked threads "caused" the deadlock.
 
 ## Recovery from Deadlock
-
 When a detection algorithm determines that a deadlock exists, several alternatives
 are available. One possibility is to inform the operator that a deadlock has
 occurred and to let the operator deal with the deadlock manually. Another possibility
@@ -364,6 +440,17 @@ To eliminate deadlocks using resource preemption, we successively preempt some
 resources from processes and give these resources to other processes until the
 deadlock cycle is broken. If preemption is required to deal with deadlocks, then
 three issues need to be addressed:
-1. **Selecting a victim**: TODO: P367
-2. **Rollback**: TODO
-3. **Starvation**: TODO
+1. **Selecting a victim**: Which resources and which processes are to preempted?
+As in process termination, we must determine the order of preemption to minimise
+cost.
+2. **Rollback**: If we preempt a resource from a process, what should be done with
+that process? Clearly, it cannot continue with its normal excecution; it is missing
+some needed resource. We must roll back the process to some safe state and restart
+it from that state. Since, in general, it is difficult to determine what a safe
+states is, the simplest solution is a total rollback: abort the process and then
+restart it.
+3. **Starvation**: How do we ensure that starvation will not occur? That is, how
+can we guarantee that resources will not always be preempted from the same process.
+In a system where victim selection is based prirmarily on cost factors, it may
+happen that the same process is always picked as a victim. As a result, this process
+never completes its designated task.

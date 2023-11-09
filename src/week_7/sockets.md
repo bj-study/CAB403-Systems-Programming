@@ -78,7 +78,7 @@ const int NUM_OF_CONNECTIONS = 10;
 
 int main(void) {
     struct sockaddr_in server_addr;
-    struct sockaddr_in client_addr;
+    struct sockaddr client_addr;
     socklen_t client_addr_len;
     char buf[1024];
 
@@ -105,7 +105,7 @@ int main(void) {
         return 1;
     }
 
-    int client_fd = accept(fd, (struct sockaddr *) &client_addr, &client_addr_len);
+    int client_fd = accept(fd, &client_addr, &client_addr_len);
 
     if (client_fd == -1) {
         fprintf(stderr, "[Error] - Failed to accept connection.\n");
@@ -151,7 +151,7 @@ const int NUM_OF_CONNECTIONS = 10;
 
 int main(void) {
     struct sockaddr_in server_addr;
-    struct sockaddr_in client_addr;
+    struct sockaddr client_addr;
     socklen_t client_addr_len;
     char buf[1024];
     char *message = "Hello, world!\n";
