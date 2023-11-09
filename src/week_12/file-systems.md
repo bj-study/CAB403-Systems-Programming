@@ -166,7 +166,7 @@ the read pointer is updated. Because a process is usually either reading from
 or writing to a file, the current operation location can be kept as a per-process 
 current-file-positio pointer. Both the read and write operations use this same 
 pointer, saving space and reducing system complexity.
-- **Repositioning within a file. The current-file-position pointer of the open 
+- **Repositioning within a file**: The current-file-position pointer of the open 
 file is repositioned to a given value. Repositioning within a file need not involve 
 any actual I/O. This file operation is also known as a file seek.
 - **Deleting a file**: To delete a file, we search the directory for the named 
